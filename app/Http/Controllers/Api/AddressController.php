@@ -28,6 +28,7 @@ class AddressController extends Controller
             'city' => 'required|string',
             'district' => 'required|string',
             'postal_code' => 'required|string',
+            'is_default' => 'required|boolean',
         ]);
 
         $address = Address::create([
@@ -38,6 +39,7 @@ class AddressController extends Controller
             'city' => $request->city,
             'district' => $request->district,
             'postal_code' => $request->postal_code,
+            'is_default' => $request->is_default,
         ]);
 
         return response()->json([
@@ -56,6 +58,7 @@ class AddressController extends Controller
             'city' => 'required|string',
             'district' => 'required|string',
             'postal_code' => 'required|string',
+            'is_default' => 'required|boolean',
         ]);
 
         $address = Address::find($id);
@@ -74,6 +77,7 @@ class AddressController extends Controller
             'city' => $request->city,
             'district' => $request->district,
             'postal_code' => $request->postal_code,
+            'is_default' => $request->is_default,
         ]);
 
         return response()->json([

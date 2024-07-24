@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\StoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,11 @@ Route::get('/seller/categories', [CategoryController::class, 'index'])->middlewa
 // Product
 Route::apiResource('/seller/products', ProductController::class)->middleware('auth:sanctum');
 Route::post('/seller/products/{id}', [ProductController::class, 'update'])->middleware('auth:sanctum');
+// Order
+// Update-resi
+Route::put('/seller/orders/{id}/update-resi', [OrderController::class, 'updateShippingNumber'])->middleware('auth:sanctum');
+Route::get('/seller/orders', [OrderController::class, 'historyOrderSeller'])->middleware('auth:sanctum');
+
 
 // [ auth ]
 Route::post('/login', [AuthController::class, 'login']);
@@ -31,3 +37,9 @@ Route::post('/buyer/register', [AuthController::class, 'registerBuyer']);
 Route::apiResource('buyer/addresses', AddressController::class)->middleware('auth:sanctum');
 // Order
 Route::post('/buyer/orders', [OrderController::class, 'createOrder'])->middleware('auth:sanctum');
+Route::get('/buyer/histories', [OrderController::class, 'historyOrderBuyer'])->middleware('auth:sanctum');
+// Stores
+Route::get('/buyer/stores', [StoreController::class, 'index'])->middleware('auth:sanctum');
+// Products by ID Store
+Route::get('/buyer/stores/{id}/products', [StoreController::class, 'productByStore'])->middleware('auth:sanctum');
+Route::get('/buyer/stores/livestreaming', [StoreController::class, 'livestreaming'])->middleware('auth:sanctum');

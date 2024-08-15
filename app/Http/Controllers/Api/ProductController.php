@@ -26,8 +26,8 @@ class ProductController extends Controller
             'name' => 'required|string',
             'description' => 'string',
             'price' => 'required',
-            'stock' => 'required|integer',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+            'stock' => 'required',
+            'image' => 'required|image'
         ]);
 
         $image = null;
@@ -59,8 +59,8 @@ class ProductController extends Controller
             'name' => 'required|string',
             'description' => 'string',
             'price' => 'required',
-            'stock' => 'required|integer',
-            'image' => 'image|mimes:jpg,jpeg,png|max:2048'
+            'stock' => 'required',
+            'image' => 'required|image'
         ]);
 
         $product = Product::find($id);

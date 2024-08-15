@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderItem;
+use App\Services\Midtrans\CreateVaService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -20,6 +21,7 @@ class OrderController extends Controller
             'items.*.quantity' => 'required|integer',
             'shipping_cost' => 'required|integer',
             'shipping_service' => 'required|string',
+            'bank_va_name' => 'required|string',
         ]);
 
         $user = $request->user();
@@ -42,6 +44,7 @@ class OrderController extends Controller
             'total_price' => $total_price,
             'grand_total' => $grand_total,
             'transaction_number' => 'TRX-' . time(),
+            'payment_va_name' => $request->bank_va_name,
         ]);
 
         foreach ($request->items as $item) {
@@ -53,6 +56,13 @@ class OrderController extends Controller
                 'quantity' => $item['quantity'],
             ]);
         }
+
+        $vaService = new CreateVaService($order->load('orderItems.product', 'user'));
+        $response = $vaService->getVA();
+
+        $order->update([
+            'payment_va_number' => $response->va_numbers[0]->va_number
+        ]);
 
         return response()->json([
             'status' => 'success',
@@ -102,5 +112,21 @@ class OrderController extends Controller
         ]);
     }
 
+    public function checkOrderStatus(Request $request, $id)
+    {
+        $order = Order::find($id);
+        return response()->json([
+            'status' => $order->status,
+        ]);
+    }
 
+    public function getOrderById($id)
+    {
+        $order = Order::with('orderItems.product')->find($id);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Order',
+            'data' => $order
+        ]);
+    }
 }

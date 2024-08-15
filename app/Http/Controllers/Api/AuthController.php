@@ -23,7 +23,7 @@ class AuthController extends Controller
             'city' => 'required|string',
             'district' => 'required|string',
             'postal_code' => 'required|string',
-            'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'photo' => 'required|image',
         ]);
 
         $photo = null;

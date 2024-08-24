@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\AgoraController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CallbackController;
 use App\Http\Controllers\Api\CategoryController;
@@ -30,7 +31,8 @@ Route::post('/seller/products/{id}', [ProductController::class, 'update'])->midd
 // Update-resi
 Route::put('/seller/orders/{id}/update-resi', [OrderController::class, 'updateShippingNumber'])->middleware('auth:sanctum');
 Route::get('/seller/orders', [OrderController::class, 'historyOrderSeller'])->middleware('auth:sanctum');
-
+// set Livestreaming
+Route::post('/seller/livestreaming', [StoreController::class, 'setLivestreaming'])->middleware('auth:sanctum');
 
 // [ auth ]
 Route::post('/login', [AuthController::class, 'login']);
@@ -52,3 +54,6 @@ Route::get('/buyer/stores/livestreaming', [StoreController::class, 'livestreamin
 
 // [ Midtrans ]
 Route::post('/midtrans/callback', [CallbackController::class, 'callback']);
+
+//  [ Agora ]
+Route::post('/agora/token', [AgoraController::class, 'getToken']);

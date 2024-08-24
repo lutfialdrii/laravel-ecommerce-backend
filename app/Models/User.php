@@ -33,6 +33,7 @@ class User extends Authenticatable
         'roles',
         'photo',
         'is_livestreaming',
+        'fcm_token'
     ];
 
     /**
